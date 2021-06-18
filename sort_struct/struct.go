@@ -1,0 +1,10 @@
+package sort_struct
+
+type Tetris struct {
+	first uint8
+	second bool
+	third string
+	fourth *uint
+	fifth int8
+	sixth float32
+}
