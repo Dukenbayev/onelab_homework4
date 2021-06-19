@@ -2,6 +2,7 @@ package sort_struct
 
 import (
 	"io/ioutil"
+	"sort"
 	"strings"
 )
 
@@ -10,12 +11,16 @@ type Field struct {
 	fType	string
 	size	int
 }
-type TopFiled struct {
-	Field interface{}
-	capacity int
+type Result struct{
+	name string
+	fType string
+	size int
 }
-func OptimalSort()(){
-
+func OptimalSort(f []Field) ([]Field){
+	sort.SliceStable(f, func(i, j int) bool {
+		return f[i].size < f[j].size
+	})
+	return	f
 }
 
 func GetSizeType(s string) int {
@@ -45,7 +50,7 @@ func GetSizeType(s string) int {
 	return 0
 }
 
-func ParseFile(path string) {
+func ParseFile(path string) []Field{
 
 	bytes, _ := ioutil.ReadFile(path)
 	data := string(bytes)
@@ -67,4 +72,10 @@ func ParseFile(path string) {
 			size:	GetSizeType(fieldsString[i+1]),
 		})
 	}
+
+	sort.SliceStable(fields, func(i, j int) bool {
+		return fields[i].size < fields[j].size
+	})
+
+	return fields
 }
